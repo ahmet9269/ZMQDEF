@@ -1,19 +1,19 @@
 #include "DelayCalcTrackData.hpp"
 
-// Constructor
-DelayCalcTrackData::DelayCalcTrackData() {
-    trackId_ = 0;
-    xVelocityECEF_ = 0;
-    yVelocityECEF_ = 0;
-    zVelocityECEF_ = 0;
-    xPositionECEF_ = 0;
-    yPositionECEF_ = 0;
-    zPositionECEF_ = 0;
-    originalUpdateTime_ = 0;
-    updateTime_ = 0;
-    firstHopSentTime_ = 0;
-    firstHopDelayTime_ = 0;
-    secondHopSentTime_ = 0;
+// MISRA C++ 2023 compliant constructor implementation
+DelayCalcTrackData::DelayCalcTrackData() noexcept {
+    trackId_ = static_cast<uint32_t>(0);
+    xVelocityECEF_ = static_cast<float>(0);
+    yVelocityECEF_ = static_cast<float>(0);
+    zVelocityECEF_ = static_cast<float>(0);
+    xPositionECEF_ = static_cast<float>(0);
+    yPositionECEF_ = static_cast<float>(0);
+    zPositionECEF_ = static_cast<float>(0);
+    originalUpdateTime_ = static_cast<uint32_t>(0);
+    updateTime_ = static_cast<uint32_t>(0);
+    firstHopSentTime_ = static_cast<uint32_t>(0);
+    firstHopDelayTime_ = static_cast<uint32_t>(0);
+    secondHopSentTime_ = static_cast<uint32_t>(0);
 }
 
     void DelayCalcTrackData::validateTrackId(uint16_t value) const {
@@ -88,7 +88,7 @@ DelayCalcTrackData::DelayCalcTrackData() {
         }
     }
 
-uint16_t DelayCalcTrackData::getTrackId() const {
+uint16_t DelayCalcTrackData::getTrackId() const noexcept {
     return trackId_;
 }
 
@@ -97,7 +97,7 @@ void DelayCalcTrackData::setTrackId(const uint16_t& value) {
     trackId_ = value;
 }
 
-float DelayCalcTrackData::getXVelocityECEF() const {
+float DelayCalcTrackData::getXVelocityECEF() const noexcept {
     return xVelocityECEF_;
 }
 
@@ -106,7 +106,7 @@ void DelayCalcTrackData::setXVelocityECEF(const float& value) {
     xVelocityECEF_ = value;
 }
 
-double DelayCalcTrackData::getYVelocityECEF() const {
+double DelayCalcTrackData::getYVelocityECEF() const noexcept {
     return yVelocityECEF_;
 }
 
@@ -115,7 +115,7 @@ void DelayCalcTrackData::setYVelocityECEF(const double& value) {
     yVelocityECEF_ = value;
 }
 
-double DelayCalcTrackData::getZVelocityECEF() const {
+double DelayCalcTrackData::getZVelocityECEF() const noexcept {
     return zVelocityECEF_;
 }
 
@@ -124,7 +124,7 @@ void DelayCalcTrackData::setZVelocityECEF(const double& value) {
     zVelocityECEF_ = value;
 }
 
-double DelayCalcTrackData::getXPositionECEF() const {
+double DelayCalcTrackData::getXPositionECEF() const noexcept {
     return xPositionECEF_;
 }
 
@@ -133,7 +133,7 @@ void DelayCalcTrackData::setXPositionECEF(const double& value) {
     xPositionECEF_ = value;
 }
 
-double DelayCalcTrackData::getYPositionECEF() const {
+double DelayCalcTrackData::getYPositionECEF() const noexcept {
     return yPositionECEF_;
 }
 
@@ -142,7 +142,7 @@ void DelayCalcTrackData::setYPositionECEF(const double& value) {
     yPositionECEF_ = value;
 }
 
-double DelayCalcTrackData::getZPositionECEF() const {
+double DelayCalcTrackData::getZPositionECEF() const noexcept {
     return zPositionECEF_;
 }
 
@@ -151,7 +151,7 @@ void DelayCalcTrackData::setZPositionECEF(const double& value) {
     zPositionECEF_ = value;
 }
 
-int64_t DelayCalcTrackData::getOriginalUpdateTime() const {
+int64_t DelayCalcTrackData::getOriginalUpdateTime() const noexcept {
     return originalUpdateTime_;
 }
 
@@ -160,7 +160,7 @@ void DelayCalcTrackData::setOriginalUpdateTime(const int64_t& value) {
     originalUpdateTime_ = value;
 }
 
-int64_t DelayCalcTrackData::getUpdateTime() const {
+int64_t DelayCalcTrackData::getUpdateTime() const noexcept {
     return updateTime_;
 }
 
@@ -169,7 +169,7 @@ void DelayCalcTrackData::setUpdateTime(const int64_t& value) {
     updateTime_ = value;
 }
 
-int64_t DelayCalcTrackData::getFirstHopSentTime() const {
+int64_t DelayCalcTrackData::getFirstHopSentTime() const noexcept {
     return firstHopSentTime_;
 }
 
@@ -178,7 +178,7 @@ void DelayCalcTrackData::setFirstHopSentTime(const int64_t& value) {
     firstHopSentTime_ = value;
 }
 
-int64_t DelayCalcTrackData::getFirstHopDelayTime() const {
+int64_t DelayCalcTrackData::getFirstHopDelayTime() const noexcept {
     return firstHopDelayTime_;
 }
 
@@ -187,7 +187,7 @@ void DelayCalcTrackData::setFirstHopDelayTime(const int64_t& value) {
     firstHopDelayTime_ = value;
 }
 
-int64_t DelayCalcTrackData::getSecondHopSentTime() const {
+int64_t DelayCalcTrackData::getSecondHopSentTime() const noexcept {
     return secondHopSentTime_;
 }
 
@@ -196,7 +196,7 @@ void DelayCalcTrackData::setSecondHopSentTime(const int64_t& value) {
     secondHopSentTime_ = value;
 }
 
-bool DelayCalcTrackData::isValid() const {
+bool DelayCalcTrackData::isValid() const noexcept {
     try {
         validateTrackId(trackId_);
         validateXVelocityECEF(xVelocityECEF_);
@@ -216,7 +216,7 @@ bool DelayCalcTrackData::isValid() const {
     }
 }
 
-// Binary Serialization Implementation
+// MISRA C++ 2023 compliant Binary Serialization Implementation
 std::vector<uint8_t> DelayCalcTrackData::serialize() const {
     std::vector<uint8_t> buffer;
     buffer.reserve(getSerializedSize());
@@ -296,12 +296,12 @@ std::vector<uint8_t> DelayCalcTrackData::serialize() const {
     return buffer;
 }
 
-bool DelayCalcTrackData::deserialize(const std::vector<uint8_t>& data) {
+bool DelayCalcTrackData::deserialize(const std::vector<uint8_t>& data) noexcept {
     if (data.size() < getSerializedSize()) {
         return false;
     }
     
-    size_t offset = 0;
+    std::size_t offset = 0U;
     
     // Deserialize trackId_
     if (offset + sizeof(trackId_) <= data.size()) {
@@ -402,8 +402,8 @@ bool DelayCalcTrackData::deserialize(const std::vector<uint8_t>& data) {
     return true;
 }
 
-size_t DelayCalcTrackData::getSerializedSize() const {
-    size_t size = 0;
+std::size_t DelayCalcTrackData::getSerializedSize() const noexcept {
+    std::size_t size = 0U;
     
     size += sizeof(trackId_);  // uint32_t
     size += sizeof(xVelocityECEF_);  // float

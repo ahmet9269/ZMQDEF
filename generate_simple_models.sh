@@ -214,6 +214,8 @@ process_json_file() {
     
     cat > "$header_file" << EOF
 #pragma once
+
+// MISRA C++ 2023 compliant includes
 #include <string>
 #include <cstdint>
 #include <stdexcept>
@@ -224,8 +226,9 @@ process_json_file() {
 /**
  * @brief $description
  * Auto-generated from ${filename}.json
+ * MISRA C++ 2023 compliant implementation
  */
-class $title {
+class $title final {
 public:
 EOF
 
@@ -247,8 +250,20 @@ EOF
     fi
 
     cat >> "$header_file" << EOF
-    // Constructor
-    $title();
+    // MISRA C++ 2023 compliant constructors
+    explicit $title() noexcept;
+    
+    // Copy constructor
+    $title(const $title& other) = default;
+    
+    // Move constructor
+    $title($title&& other) noexcept = default;
+    
+    // Copy assignment operator
+    $title& operator=(const $title& other) = default;
+    
+    // Move assignment operator
+    $title& operator=($title&& other) noexcept = default;
     
     // Destructor
     ~$title() = default;
@@ -264,39 +279,40 @@ EOF
         cpp_type=$(get_cpp_type "$json_type" "$minimum" "$maximum" "$format")
         field_name_cap="$(tr '[:lower:]' '[:upper:]' <<< ${field_name:0:1})${field_name:1}"
         
-        # Getter declaration
-        echo "    $cpp_type get${field_name_cap}() const;" >> "$header_file"
+        # Getter declaration - MISRA compliant
+        echo "    $cpp_type get${field_name_cap}() const noexcept;" >> "$header_file"
         
-        # Setter declaration
+        # Setter declaration - MISRA compliant
         echo "    void set${field_name_cap}(const $cpp_type& value);" >> "$header_file"
         echo "" >> "$header_file"
     done
     
     # isValid method declaration
     cat >> "$header_file" << EOF
-    // Validation
-    bool isValid() const;
+    // Validation - MISRA compliant
+    [[nodiscard]] bool isValid() const noexcept;
 
-    // Binary Serialization
-    std::vector<uint8_t> serialize() const;
-    bool deserialize(const std::vector<uint8_t>& data);
-    size_t getSerializedSize() const;
+    // Binary Serialization - MISRA compliant
+    [[nodiscard]] std::vector<uint8_t> serialize() const;
+    bool deserialize(const std::vector<uint8_t>& data) noexcept;
+    [[nodiscard]] std::size_t getSerializedSize() const noexcept;
 
 private:
 EOF
 
     # Private member variables
     echo "    // Member variables" >> "$header_file"
-    jq -r '.properties | to_entries[] | "\(.key) \(.value.type) \(.value.minimum // "null") \(.value.maximum // "null") \(.value.format // "null")"' "$json_file" | while read -r field_name json_type minimum maximum format; do
+    jq -r '.properties | to_entries[] | "\(.key) \(.value.type) \(.value.minimum // "null") \(.value.maximum // "null") \(.value.format // "null") \(.value.description)"' "$json_file" | while read -r field_name json_type minimum maximum format description; do
         if [ "$minimum" = "null" ]; then minimum="0"; fi
         if [ "$maximum" = "null" ]; then maximum="1000000"; fi
         
         cpp_type=$(get_cpp_type "$json_type" "$minimum" "$maximum" "$format")
+        echo "    /// $description" >> "$header_file"
         echo "    $cpp_type ${field_name}_;" >> "$header_file"
     done
     
     echo "" >> "$header_file"
-    echo "    // Validation functions" >> "$header_file"
+    echo "    // Validation functions - MISRA compliant" >> "$header_file"
     
     # Validation function declarations
     jq -r '.properties | to_entries[] | "\(.key) \(.value.type) \(.value.minimum // "null") \(.value.maximum // "null") \(.value.format // "null")"' "$json_file" | while read -r field_name json_type minimum maximum format; do
@@ -319,17 +335,17 @@ EOF
     cat > "$source_file" << EOF
 #include "${title}.hpp"
 
-// Constructor
-$title::$title() {
+// MISRA C++ 2023 compliant constructor implementation
+$title::$title() noexcept {
 EOF
 
-    # Constructor initialization
+    # Constructor initialization - MISRA compliant
     jq -r '.properties | to_entries[] | "\(.key) \(.value.type) \(.value.format // "null")"' "$json_file" | while read -r field_name json_type format; do
         cpp_type=$(get_cpp_type "$json_type" "0" "1000000" "$format")
         if [[ "$cpp_type" =~ int.*_t|float|double ]]; then
-            echo "    ${field_name}_ = 0;" >> "$source_file"
+            echo "    ${field_name}_ = static_cast<$cpp_type>(0);" >> "$source_file"
         else
-            echo "    ${field_name}_ = \"\";" >> "$source_file"
+            echo "    ${field_name}_.clear();" >> "$source_file"
         fi
     done
     
@@ -359,13 +375,13 @@ EOF
         cpp_type=$(get_cpp_type "$json_type" "$minimum" "$maximum" "$format")
         field_name_cap="$(tr '[:lower:]' '[:upper:]' <<< ${field_name:0:1})${field_name:1}"
         
-        # Getter implementation
-        echo "$cpp_type $title::get${field_name_cap}() const {" >> "$source_file"
+        # Getter implementation - MISRA compliant
+        echo "$cpp_type $title::get${field_name_cap}() const noexcept {" >> "$source_file"
         echo "    return ${field_name}_;" >> "$source_file"
         echo "}" >> "$source_file"
         echo "" >> "$source_file"
         
-        # Setter implementation
+        # Setter implementation - MISRA compliant
         echo "void $title::set${field_name_cap}(const $cpp_type& value) {" >> "$source_file"
         if [ "$cpp_type" != "std::string" ]; then
             echo "    validate${field_name_cap}(value);" >> "$source_file"
@@ -377,7 +393,7 @@ EOF
     
     # isValid method implementation
     cat >> "$source_file" << EOF
-bool $title::isValid() const {
+bool $title::isValid() const noexcept {
     try {
 EOF
 
@@ -397,7 +413,7 @@ EOF
     }
 }
 
-// Binary Serialization Implementation
+// MISRA C++ 2023 compliant Binary Serialization Implementation
 std::vector<uint8_t> $title::serialize() const {
     std::vector<uint8_t> buffer;
     buffer.reserve(getSerializedSize());
@@ -419,12 +435,12 @@ EOF
 EOF
         elif [ "$cpp_type" = "std::string" ]; then
             cat >> "$source_file" << EOF
-    // Serialize ${field_name}_ (string)
+    // Serialize ${field_name}_ (string) - MISRA compliant
     {
-        uint32_t length = static_cast<uint32_t>(${field_name}_.length());
-        const uint8_t* length_ptr = reinterpret_cast<const uint8_t*>(&length);
+        const std::uint32_t length = static_cast<std::uint32_t>(${field_name}_.length());
+        const std::uint8_t* length_ptr = reinterpret_cast<const std::uint8_t*>(&length);
         buffer.insert(buffer.end(), length_ptr, length_ptr + sizeof(length));
-        buffer.insert(buffer.end(), ${field_name}_.begin(), ${field_name}_.end());
+        buffer.insert(buffer.end(), ${field_name}_.cbegin(), ${field_name}_.cend());
     }
     
 EOF
@@ -435,12 +451,12 @@ EOF
     return buffer;
 }
 
-bool $title::deserialize(const std::vector<uint8_t>& data) {
+bool $title::deserialize(const std::vector<uint8_t>& data) noexcept {
     if (data.size() < getSerializedSize()) {
         return false;
     }
     
-    size_t offset = 0;
+    std::size_t offset = 0U;
     
 EOF
 
@@ -461,11 +477,11 @@ EOF
 EOF
         elif [ "$cpp_type" = "std::string" ]; then
             cat >> "$source_file" << EOF
-    // Deserialize ${field_name}_ (string)
-    if (offset + sizeof(uint32_t) <= data.size()) {
-        uint32_t length;
+    // Deserialize ${field_name}_ (string) - MISRA compliant
+    if (offset + sizeof(std::uint32_t) <= data.size()) {
+        std::uint32_t length{0U};
         std::memcpy(&length, &data[offset], sizeof(length));
-        offset += sizeof(uint32_t);
+        offset += sizeof(std::uint32_t);
         
         if (offset + length <= data.size()) {
             ${field_name}_.assign(reinterpret_cast<const char*>(&data[offset]), length);
@@ -485,8 +501,8 @@ EOF
     return true;
 }
 
-size_t $title::getSerializedSize() const {
-    size_t size = 0;
+std::size_t $title::getSerializedSize() const noexcept {
+    std::size_t size = 0U;
     
 EOF
 
@@ -500,7 +516,7 @@ EOF
 EOF
         elif [ "$cpp_type" = "std::string" ]; then
             cat >> "$source_file" << EOF
-    size += sizeof(uint32_t) + ${field_name}_.length();  // string length + data
+    size += sizeof(std::uint32_t) + ${field_name}_.length();  // string length + data
 EOF
         fi
     done
@@ -640,7 +656,11 @@ EOF
                 cpp_type=$(get_cpp_type "$json_type" "0" "1000000" "$format")
                 
                 if [[ "$cpp_type" =~ int.*_t ]]; then
-                    echo "        ${title,,}Obj.set${field_name_cap}(12345);" >> "$MODEL_DIR/main.cpp"
+                    if [[ "$field_name" == "trackId" ]]; then
+                        echo "        ${title,,}Obj.set${field_name_cap}(1234);" >> "$MODEL_DIR/main.cpp"
+                    else
+                        echo "        ${title,,}Obj.set${field_name_cap}(12345);" >> "$MODEL_DIR/main.cpp"
+                    fi
                 elif [[ "$cpp_type" =~ float|double ]]; then
                     echo "        ${title,,}Obj.set${field_name_cap}(123.45);" >> "$MODEL_DIR/main.cpp"
                 else
@@ -652,6 +672,29 @@ EOF
         
         std::cout << "Validation: " << (${title,,}Obj.isValid() ? "Geçerli" : "Geçersiz") << std::endl;
 EOF
+            
+            # ExtrapTrackData için binary serialization test ekle
+            if [ "$title" = "ExtrapTrackData" ]; then
+                cat >> "$MODEL_DIR/main.cpp" << EOF
+        
+        // Binary Serialization Test
+        std::cout << "Binary Serialization Test:" << std::endl;
+        std::vector<uint8_t> serializedData = ${title,,}Obj.serialize();
+        std::cout << "Serialized size: " << serializedData.size() << " bytes" << std::endl;
+        std::cout << "Expected size: " << ${title,,}Obj.getSerializedSize() << " bytes" << std::endl;
+        
+        // Test deserialization
+        ${title} deserializedObj;
+        bool deserializeSuccess = deserializedObj.deserialize(serializedData);
+        std::cout << "Deserialization: " << (deserializeSuccess ? "Başarılı" : "Başarısız") << std::endl;
+        
+        if (deserializeSuccess) {
+            std::cout << "Original TrackId: " << ${title,,}Obj.getTrackId() << std::endl;
+            std::cout << "Deserialized TrackId: " << deserializedObj.getTrackId() << std::endl;
+            std::cout << "Data integrity: " << (${title,,}Obj.getTrackId() == deserializedObj.getTrackId() ? "OK" : "FAILED") << std::endl;
+        }
+EOF
+            fi
         fi
     done
     

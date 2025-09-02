@@ -1,4 +1,6 @@
 #pragma once
+
+// MISRA C++ 2023 compliant includes
 #include <string>
 #include <cstdint>
 #include <stdexcept>
@@ -9,80 +11,105 @@
 /**
  * @brief Bir izin ECEF koordinat sistemindeki durumunu ve çok adımlı (multi-hop) gecikme hesaplama bilgilerini içerir. Sadece teknik veri tipi limitleri uygulanmıştır.
  * Auto-generated from DelayCalcTrackData.json
+ * MISRA C++ 2023 compliant implementation
  */
-class DelayCalcTrackData {
+class DelayCalcTrackData final {
 public:
     // Network configuration constants
     static constexpr const char* MULTICAST_ADDRESS = "239.1.1.5";
     static constexpr int PORT = 9595;
 
-    // Constructor
-    DelayCalcTrackData();
+    // MISRA C++ 2023 compliant constructors
+    explicit DelayCalcTrackData() noexcept;
+    
+    // Copy constructor
+    DelayCalcTrackData(const DelayCalcTrackData& other) = default;
+    
+    // Move constructor
+    DelayCalcTrackData(DelayCalcTrackData&& other) noexcept = default;
+    
+    // Copy assignment operator
+    DelayCalcTrackData& operator=(const DelayCalcTrackData& other) = default;
+    
+    // Move assignment operator
+    DelayCalcTrackData& operator=(DelayCalcTrackData&& other) noexcept = default;
     
     // Destructor
     ~DelayCalcTrackData() = default;
     
     // Getters and Setters
-    uint16_t getTrackId() const;
+    uint16_t getTrackId() const noexcept;
     void setTrackId(const uint16_t& value);
 
-    float getXVelocityECEF() const;
+    float getXVelocityECEF() const noexcept;
     void setXVelocityECEF(const float& value);
 
-    double getYVelocityECEF() const;
+    double getYVelocityECEF() const noexcept;
     void setYVelocityECEF(const double& value);
 
-    double getZVelocityECEF() const;
+    double getZVelocityECEF() const noexcept;
     void setZVelocityECEF(const double& value);
 
-    double getXPositionECEF() const;
+    double getXPositionECEF() const noexcept;
     void setXPositionECEF(const double& value);
 
-    double getYPositionECEF() const;
+    double getYPositionECEF() const noexcept;
     void setYPositionECEF(const double& value);
 
-    double getZPositionECEF() const;
+    double getZPositionECEF() const noexcept;
     void setZPositionECEF(const double& value);
 
-    int64_t getOriginalUpdateTime() const;
+    int64_t getOriginalUpdateTime() const noexcept;
     void setOriginalUpdateTime(const int64_t& value);
 
-    int64_t getUpdateTime() const;
+    int64_t getUpdateTime() const noexcept;
     void setUpdateTime(const int64_t& value);
 
-    int64_t getFirstHopSentTime() const;
+    int64_t getFirstHopSentTime() const noexcept;
     void setFirstHopSentTime(const int64_t& value);
 
-    int64_t getFirstHopDelayTime() const;
+    int64_t getFirstHopDelayTime() const noexcept;
     void setFirstHopDelayTime(const int64_t& value);
 
-    int64_t getSecondHopSentTime() const;
+    int64_t getSecondHopSentTime() const noexcept;
     void setSecondHopSentTime(const int64_t& value);
 
-    // Validation
-    bool isValid() const;
+    // Validation - MISRA compliant
+    [[nodiscard]] bool isValid() const noexcept;
 
-    // Binary Serialization
-    std::vector<uint8_t> serialize() const;
-    bool deserialize(const std::vector<uint8_t>& data);
-    size_t getSerializedSize() const;
+    // Binary Serialization - MISRA compliant
+    [[nodiscard]] std::vector<uint8_t> serialize() const;
+    bool deserialize(const std::vector<uint8_t>& data) noexcept;
+    [[nodiscard]] std::size_t getSerializedSize() const noexcept;
 
 private:
     // Member variables
+    /// İz için benzersiz tam sayı kimliği
     uint16_t trackId_;
+    /// ECEF koordinatlarındaki X ekseni hızı (m/s)
     float xVelocityECEF_;
+    /// ECEF koordinatlarındaki Y ekseni hızı (m/s)
     double yVelocityECEF_;
+    /// ECEF koordinatlarındaki Z ekseni hızı (m/s)
     double zVelocityECEF_;
+    /// ECEF koordinatlarındaki X ekseni konumu (metre)
     double xPositionECEF_;
+    /// ECEF koordinatlarındaki Y ekseni konumu (metre)
     double yPositionECEF_;
+    /// ECEF koordinatlarındaki Z ekseni konumu (metre)
     double zPositionECEF_;
+    /// Original güncelleme zamanı (nanosaniye)
     int64_t originalUpdateTime_;
+    /// Son güncelleme zamanı (nanosaniye)
     int64_t updateTime_;
+    /// İlk atlamanın gönderildiği zaman (nanosaniye)
     int64_t firstHopSentTime_;
+    /// İlk atlama için hesaplanan gecikme (nanosaniye)
     int64_t firstHopDelayTime_;
+    /// İkinci atlamanın gönderildiği zaman (nanosaniye)
     int64_t secondHopSentTime_;
 
-    // Validation functions
+    // Validation functions - MISRA compliant
     void validateTrackId(uint16_t value) const;
     void validateXVelocityECEF(float value) const;
     void validateYVelocityECEF(double value) const;

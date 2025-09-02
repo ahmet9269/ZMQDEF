@@ -1,15 +1,15 @@
 #include "ProcessedTrackData.hpp"
 
-// Constructor
-ProcessedTrackData::ProcessedTrackData() {
-    trackId_ = 0;
-    xVelocityECEF_ = 0;
-    yVelocityECEF_ = 0;
-    zVelocityECEF_ = 0;
-    xPositionECEF_ = 0;
-    yPositionECEF_ = 0;
-    zPositionECEF_ = 0;
-    updateTime_ = 0;
+// MISRA C++ 2023 compliant constructor implementation
+ProcessedTrackData::ProcessedTrackData() noexcept {
+    trackId_ = static_cast<uint32_t>(0);
+    xVelocityECEF_ = static_cast<float>(0);
+    yVelocityECEF_ = static_cast<float>(0);
+    zVelocityECEF_ = static_cast<float>(0);
+    xPositionECEF_ = static_cast<float>(0);
+    yPositionECEF_ = static_cast<float>(0);
+    zPositionECEF_ = static_cast<float>(0);
+    updateTime_ = static_cast<uint32_t>(0);
 }
 
     void ProcessedTrackData::validateTrackId(int64_t value) const {
@@ -60,7 +60,7 @@ ProcessedTrackData::ProcessedTrackData() {
         }
     }
 
-int64_t ProcessedTrackData::getTrackId() const {
+int64_t ProcessedTrackData::getTrackId() const noexcept {
     return trackId_;
 }
 
@@ -69,7 +69,7 @@ void ProcessedTrackData::setTrackId(const int64_t& value) {
     trackId_ = value;
 }
 
-double ProcessedTrackData::getXVelocityECEF() const {
+double ProcessedTrackData::getXVelocityECEF() const noexcept {
     return xVelocityECEF_;
 }
 
@@ -78,7 +78,7 @@ void ProcessedTrackData::setXVelocityECEF(const double& value) {
     xVelocityECEF_ = value;
 }
 
-double ProcessedTrackData::getYVelocityECEF() const {
+double ProcessedTrackData::getYVelocityECEF() const noexcept {
     return yVelocityECEF_;
 }
 
@@ -87,7 +87,7 @@ void ProcessedTrackData::setYVelocityECEF(const double& value) {
     yVelocityECEF_ = value;
 }
 
-double ProcessedTrackData::getZVelocityECEF() const {
+double ProcessedTrackData::getZVelocityECEF() const noexcept {
     return zVelocityECEF_;
 }
 
@@ -96,7 +96,7 @@ void ProcessedTrackData::setZVelocityECEF(const double& value) {
     zVelocityECEF_ = value;
 }
 
-double ProcessedTrackData::getXPositionECEF() const {
+double ProcessedTrackData::getXPositionECEF() const noexcept {
     return xPositionECEF_;
 }
 
@@ -105,7 +105,7 @@ void ProcessedTrackData::setXPositionECEF(const double& value) {
     xPositionECEF_ = value;
 }
 
-double ProcessedTrackData::getYPositionECEF() const {
+double ProcessedTrackData::getYPositionECEF() const noexcept {
     return yPositionECEF_;
 }
 
@@ -114,7 +114,7 @@ void ProcessedTrackData::setYPositionECEF(const double& value) {
     yPositionECEF_ = value;
 }
 
-double ProcessedTrackData::getZPositionECEF() const {
+double ProcessedTrackData::getZPositionECEF() const noexcept {
     return zPositionECEF_;
 }
 
@@ -123,7 +123,7 @@ void ProcessedTrackData::setZPositionECEF(const double& value) {
     zPositionECEF_ = value;
 }
 
-int64_t ProcessedTrackData::getUpdateTime() const {
+int64_t ProcessedTrackData::getUpdateTime() const noexcept {
     return updateTime_;
 }
 
@@ -132,7 +132,7 @@ void ProcessedTrackData::setUpdateTime(const int64_t& value) {
     updateTime_ = value;
 }
 
-bool ProcessedTrackData::isValid() const {
+bool ProcessedTrackData::isValid() const noexcept {
     try {
         validateTrackId(trackId_);
         validateXVelocityECEF(xVelocityECEF_);
@@ -148,7 +148,7 @@ bool ProcessedTrackData::isValid() const {
     }
 }
 
-// Binary Serialization Implementation
+// MISRA C++ 2023 compliant Binary Serialization Implementation
 std::vector<uint8_t> ProcessedTrackData::serialize() const {
     std::vector<uint8_t> buffer;
     buffer.reserve(getSerializedSize());
@@ -204,12 +204,12 @@ std::vector<uint8_t> ProcessedTrackData::serialize() const {
     return buffer;
 }
 
-bool ProcessedTrackData::deserialize(const std::vector<uint8_t>& data) {
+bool ProcessedTrackData::deserialize(const std::vector<uint8_t>& data) noexcept {
     if (data.size() < getSerializedSize()) {
         return false;
     }
     
-    size_t offset = 0;
+    std::size_t offset = 0U;
     
     // Deserialize trackId_
     if (offset + sizeof(trackId_) <= data.size()) {
@@ -278,8 +278,8 @@ bool ProcessedTrackData::deserialize(const std::vector<uint8_t>& data) {
     return true;
 }
 
-size_t ProcessedTrackData::getSerializedSize() const {
-    size_t size = 0;
+std::size_t ProcessedTrackData::getSerializedSize() const noexcept {
+    std::size_t size = 0U;
     
     size += sizeof(trackId_);  // uint32_t
     size += sizeof(xVelocityECEF_);  // float

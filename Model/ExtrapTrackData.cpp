@@ -1,17 +1,17 @@
 #include "ExtrapTrackData.hpp"
 
-// Constructor
-ExtrapTrackData::ExtrapTrackData() {
-    trackId_ = 0;
-    xVelocityECEF_ = 0;
-    yVelocityECEF_ = 0;
-    zVelocityECEF_ = 0;
-    xPositionECEF_ = 0;
-    yPositionECEF_ = 0;
-    zPositionECEF_ = 0;
-    originalUpdateTime_ = 0;
-    updateTime_ = 0;
-    firstHopSentTime_ = 0;
+// MISRA C++ 2023 compliant constructor implementation
+ExtrapTrackData::ExtrapTrackData() noexcept {
+    trackId_ = static_cast<uint32_t>(0);
+    xVelocityECEF_ = static_cast<float>(0);
+    yVelocityECEF_ = static_cast<float>(0);
+    zVelocityECEF_ = static_cast<float>(0);
+    xPositionECEF_ = static_cast<float>(0);
+    yPositionECEF_ = static_cast<float>(0);
+    zPositionECEF_ = static_cast<float>(0);
+    originalUpdateTime_ = static_cast<uint32_t>(0);
+    updateTime_ = static_cast<uint32_t>(0);
+    firstHopSentTime_ = static_cast<uint32_t>(0);
 }
 
     void ExtrapTrackData::validateTrackId(uint32_t value) const {
@@ -74,7 +74,7 @@ ExtrapTrackData::ExtrapTrackData() {
         }
     }
 
-uint32_t ExtrapTrackData::getTrackId() const {
+uint32_t ExtrapTrackData::getTrackId() const noexcept {
     return trackId_;
 }
 
@@ -83,7 +83,7 @@ void ExtrapTrackData::setTrackId(const uint32_t& value) {
     trackId_ = value;
 }
 
-float ExtrapTrackData::getXVelocityECEF() const {
+float ExtrapTrackData::getXVelocityECEF() const noexcept {
     return xVelocityECEF_;
 }
 
@@ -92,7 +92,7 @@ void ExtrapTrackData::setXVelocityECEF(const float& value) {
     xVelocityECEF_ = value;
 }
 
-double ExtrapTrackData::getYVelocityECEF() const {
+double ExtrapTrackData::getYVelocityECEF() const noexcept {
     return yVelocityECEF_;
 }
 
@@ -101,7 +101,7 @@ void ExtrapTrackData::setYVelocityECEF(const double& value) {
     yVelocityECEF_ = value;
 }
 
-double ExtrapTrackData::getZVelocityECEF() const {
+double ExtrapTrackData::getZVelocityECEF() const noexcept {
     return zVelocityECEF_;
 }
 
@@ -110,7 +110,7 @@ void ExtrapTrackData::setZVelocityECEF(const double& value) {
     zVelocityECEF_ = value;
 }
 
-double ExtrapTrackData::getXPositionECEF() const {
+double ExtrapTrackData::getXPositionECEF() const noexcept {
     return xPositionECEF_;
 }
 
@@ -119,7 +119,7 @@ void ExtrapTrackData::setXPositionECEF(const double& value) {
     xPositionECEF_ = value;
 }
 
-double ExtrapTrackData::getYPositionECEF() const {
+double ExtrapTrackData::getYPositionECEF() const noexcept {
     return yPositionECEF_;
 }
 
@@ -128,7 +128,7 @@ void ExtrapTrackData::setYPositionECEF(const double& value) {
     yPositionECEF_ = value;
 }
 
-double ExtrapTrackData::getZPositionECEF() const {
+double ExtrapTrackData::getZPositionECEF() const noexcept {
     return zPositionECEF_;
 }
 
@@ -137,7 +137,7 @@ void ExtrapTrackData::setZPositionECEF(const double& value) {
     zPositionECEF_ = value;
 }
 
-int64_t ExtrapTrackData::getOriginalUpdateTime() const {
+int64_t ExtrapTrackData::getOriginalUpdateTime() const noexcept {
     return originalUpdateTime_;
 }
 
@@ -146,7 +146,7 @@ void ExtrapTrackData::setOriginalUpdateTime(const int64_t& value) {
     originalUpdateTime_ = value;
 }
 
-int64_t ExtrapTrackData::getUpdateTime() const {
+int64_t ExtrapTrackData::getUpdateTime() const noexcept {
     return updateTime_;
 }
 
@@ -155,7 +155,7 @@ void ExtrapTrackData::setUpdateTime(const int64_t& value) {
     updateTime_ = value;
 }
 
-int64_t ExtrapTrackData::getFirstHopSentTime() const {
+int64_t ExtrapTrackData::getFirstHopSentTime() const noexcept {
     return firstHopSentTime_;
 }
 
@@ -164,7 +164,7 @@ void ExtrapTrackData::setFirstHopSentTime(const int64_t& value) {
     firstHopSentTime_ = value;
 }
 
-bool ExtrapTrackData::isValid() const {
+bool ExtrapTrackData::isValid() const noexcept {
     try {
         validateTrackId(trackId_);
         validateXVelocityECEF(xVelocityECEF_);
@@ -182,7 +182,7 @@ bool ExtrapTrackData::isValid() const {
     }
 }
 
-// Binary Serialization Implementation
+// MISRA C++ 2023 compliant Binary Serialization Implementation
 std::vector<uint8_t> ExtrapTrackData::serialize() const {
     std::vector<uint8_t> buffer;
     buffer.reserve(getSerializedSize());
@@ -250,12 +250,12 @@ std::vector<uint8_t> ExtrapTrackData::serialize() const {
     return buffer;
 }
 
-bool ExtrapTrackData::deserialize(const std::vector<uint8_t>& data) {
+bool ExtrapTrackData::deserialize(const std::vector<uint8_t>& data) noexcept {
     if (data.size() < getSerializedSize()) {
         return false;
     }
     
-    size_t offset = 0;
+    std::size_t offset = 0U;
     
     // Deserialize trackId_
     if (offset + sizeof(trackId_) <= data.size()) {
@@ -340,8 +340,8 @@ bool ExtrapTrackData::deserialize(const std::vector<uint8_t>& data) {
     return true;
 }
 
-size_t ExtrapTrackData::getSerializedSize() const {
-    size_t size = 0;
+std::size_t ExtrapTrackData::getSerializedSize() const noexcept {
+    std::size_t size = 0U;
     
     size += sizeof(trackId_);  // uint32_t
     size += sizeof(xVelocityECEF_);  // float

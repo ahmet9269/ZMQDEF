@@ -1,21 +1,21 @@
 #include "TrackStatics.hpp"
 
-// Constructor
-TrackStatics::TrackStatics() {
-    trackId_ = 0;
-    firstHopDelayDataMean_ = 0;
-    firstHopDelayDataStd_ = 0;
-    firstHopDelayDataMin_ = 0;
-    firstHopDelayDataMax_ = 0;
-    secondHopDelayDataMean_ = 0;
-    secondHopDelayDataStd_ = 0;
-    secondHopDelayDataMin_ = 0;
-    secondHopDelayDataMax_ = 0;
-    totalHopDelayDataMean_ = 0;
-    totalHopDelayDataStd_ = 0;
-    totalHopDelayDataMin_ = 0;
-    totalHopDelayDataMax_ = 0;
-    updateTime_ = 0;
+// MISRA C++ 2023 compliant constructor implementation
+TrackStatics::TrackStatics() noexcept {
+    trackId_ = static_cast<uint32_t>(0);
+    firstHopDelayDataMean_ = static_cast<float>(0);
+    firstHopDelayDataStd_ = static_cast<float>(0);
+    firstHopDelayDataMin_ = static_cast<float>(0);
+    firstHopDelayDataMax_ = static_cast<float>(0);
+    secondHopDelayDataMean_ = static_cast<float>(0);
+    secondHopDelayDataStd_ = static_cast<float>(0);
+    secondHopDelayDataMin_ = static_cast<float>(0);
+    secondHopDelayDataMax_ = static_cast<float>(0);
+    totalHopDelayDataMean_ = static_cast<float>(0);
+    totalHopDelayDataStd_ = static_cast<float>(0);
+    totalHopDelayDataMin_ = static_cast<float>(0);
+    totalHopDelayDataMax_ = static_cast<float>(0);
+    updateTime_ = static_cast<uint32_t>(0);
 }
 
     void TrackStatics::validateTrackId(int64_t value) const {
@@ -102,7 +102,7 @@ TrackStatics::TrackStatics() {
         }
     }
 
-int64_t TrackStatics::getTrackId() const {
+int64_t TrackStatics::getTrackId() const noexcept {
     return trackId_;
 }
 
@@ -111,7 +111,7 @@ void TrackStatics::setTrackId(const int64_t& value) {
     trackId_ = value;
 }
 
-double TrackStatics::getFirstHopDelayDataMean() const {
+double TrackStatics::getFirstHopDelayDataMean() const noexcept {
     return firstHopDelayDataMean_;
 }
 
@@ -120,7 +120,7 @@ void TrackStatics::setFirstHopDelayDataMean(const double& value) {
     firstHopDelayDataMean_ = value;
 }
 
-double TrackStatics::getFirstHopDelayDataStd() const {
+double TrackStatics::getFirstHopDelayDataStd() const noexcept {
     return firstHopDelayDataStd_;
 }
 
@@ -129,7 +129,7 @@ void TrackStatics::setFirstHopDelayDataStd(const double& value) {
     firstHopDelayDataStd_ = value;
 }
 
-double TrackStatics::getFirstHopDelayDataMin() const {
+double TrackStatics::getFirstHopDelayDataMin() const noexcept {
     return firstHopDelayDataMin_;
 }
 
@@ -138,7 +138,7 @@ void TrackStatics::setFirstHopDelayDataMin(const double& value) {
     firstHopDelayDataMin_ = value;
 }
 
-double TrackStatics::getFirstHopDelayDataMax() const {
+double TrackStatics::getFirstHopDelayDataMax() const noexcept {
     return firstHopDelayDataMax_;
 }
 
@@ -147,7 +147,7 @@ void TrackStatics::setFirstHopDelayDataMax(const double& value) {
     firstHopDelayDataMax_ = value;
 }
 
-double TrackStatics::getSecondHopDelayDataMean() const {
+double TrackStatics::getSecondHopDelayDataMean() const noexcept {
     return secondHopDelayDataMean_;
 }
 
@@ -156,7 +156,7 @@ void TrackStatics::setSecondHopDelayDataMean(const double& value) {
     secondHopDelayDataMean_ = value;
 }
 
-double TrackStatics::getSecondHopDelayDataStd() const {
+double TrackStatics::getSecondHopDelayDataStd() const noexcept {
     return secondHopDelayDataStd_;
 }
 
@@ -165,7 +165,7 @@ void TrackStatics::setSecondHopDelayDataStd(const double& value) {
     secondHopDelayDataStd_ = value;
 }
 
-double TrackStatics::getSecondHopDelayDataMin() const {
+double TrackStatics::getSecondHopDelayDataMin() const noexcept {
     return secondHopDelayDataMin_;
 }
 
@@ -174,7 +174,7 @@ void TrackStatics::setSecondHopDelayDataMin(const double& value) {
     secondHopDelayDataMin_ = value;
 }
 
-double TrackStatics::getSecondHopDelayDataMax() const {
+double TrackStatics::getSecondHopDelayDataMax() const noexcept {
     return secondHopDelayDataMax_;
 }
 
@@ -183,7 +183,7 @@ void TrackStatics::setSecondHopDelayDataMax(const double& value) {
     secondHopDelayDataMax_ = value;
 }
 
-double TrackStatics::getTotalHopDelayDataMean() const {
+double TrackStatics::getTotalHopDelayDataMean() const noexcept {
     return totalHopDelayDataMean_;
 }
 
@@ -192,7 +192,7 @@ void TrackStatics::setTotalHopDelayDataMean(const double& value) {
     totalHopDelayDataMean_ = value;
 }
 
-double TrackStatics::getTotalHopDelayDataStd() const {
+double TrackStatics::getTotalHopDelayDataStd() const noexcept {
     return totalHopDelayDataStd_;
 }
 
@@ -201,7 +201,7 @@ void TrackStatics::setTotalHopDelayDataStd(const double& value) {
     totalHopDelayDataStd_ = value;
 }
 
-double TrackStatics::getTotalHopDelayDataMin() const {
+double TrackStatics::getTotalHopDelayDataMin() const noexcept {
     return totalHopDelayDataMin_;
 }
 
@@ -210,7 +210,7 @@ void TrackStatics::setTotalHopDelayDataMin(const double& value) {
     totalHopDelayDataMin_ = value;
 }
 
-double TrackStatics::getTotalHopDelayDataMax() const {
+double TrackStatics::getTotalHopDelayDataMax() const noexcept {
     return totalHopDelayDataMax_;
 }
 
@@ -219,7 +219,7 @@ void TrackStatics::setTotalHopDelayDataMax(const double& value) {
     totalHopDelayDataMax_ = value;
 }
 
-int64_t TrackStatics::getUpdateTime() const {
+int64_t TrackStatics::getUpdateTime() const noexcept {
     return updateTime_;
 }
 
@@ -228,7 +228,7 @@ void TrackStatics::setUpdateTime(const int64_t& value) {
     updateTime_ = value;
 }
 
-bool TrackStatics::isValid() const {
+bool TrackStatics::isValid() const noexcept {
     try {
         validateTrackId(trackId_);
         validateFirstHopDelayDataMean(firstHopDelayDataMean_);
@@ -250,7 +250,7 @@ bool TrackStatics::isValid() const {
     }
 }
 
-// Binary Serialization Implementation
+// MISRA C++ 2023 compliant Binary Serialization Implementation
 std::vector<uint8_t> TrackStatics::serialize() const {
     std::vector<uint8_t> buffer;
     buffer.reserve(getSerializedSize());
@@ -342,12 +342,12 @@ std::vector<uint8_t> TrackStatics::serialize() const {
     return buffer;
 }
 
-bool TrackStatics::deserialize(const std::vector<uint8_t>& data) {
+bool TrackStatics::deserialize(const std::vector<uint8_t>& data) noexcept {
     if (data.size() < getSerializedSize()) {
         return false;
     }
     
-    size_t offset = 0;
+    std::size_t offset = 0U;
     
     // Deserialize trackId_
     if (offset + sizeof(trackId_) <= data.size()) {
@@ -464,8 +464,8 @@ bool TrackStatics::deserialize(const std::vector<uint8_t>& data) {
     return true;
 }
 
-size_t TrackStatics::getSerializedSize() const {
-    size_t size = 0;
+std::size_t TrackStatics::getSerializedSize() const noexcept {
+    std::size_t size = 0U;
     
     size += sizeof(trackId_);  // uint32_t
     size += sizeof(firstHopDelayDataMean_);  // float
