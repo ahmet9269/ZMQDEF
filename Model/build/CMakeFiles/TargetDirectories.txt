@@ -1,0 +1,3 @@
+/workspaces/ZMQDEF/Model/build/CMakeFiles/model_example.dir
+/workspaces/ZMQDEF/Model/build/CMakeFiles/edit_cache.dir
+/workspaces/ZMQDEF/Model/build/CMakeFiles/rebuild_cache.dir

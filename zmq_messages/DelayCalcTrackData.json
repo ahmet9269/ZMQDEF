@@ -15,12 +15,13 @@
     "trackId": {
       "description": "İz için benzersiz tam sayı kimliği",
       "type": "integer",
-      "minimum": -9223372036854775808,
-      "maximum": 9223372036854775807
+      "minimum": 1,
+      "maximum": 9999
     },
     "xVelocityECEF": {
       "description": "ECEF koordinatlarındaki X ekseni hızı (m/s)",
       "type": "number",
+      "format": "float",
       "minimum": -1.0e+6,
       "maximum": 1.0e+6
     },
